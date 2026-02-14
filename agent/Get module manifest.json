@@ -1,0 +1,119 @@
+{
+  "name": "Get module manifest",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "module"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        -32
+      ],
+      "id": "43e68130-885c-438b-a16e-a7986ed604a5",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/shevtsov-vsevolod",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "https://github.com/shevtsov-vsevolod/dep-agent-demo",
+          "mode": "url"
+        },
+        "filePath": "=project/src/{{ $json.module }}/manifest.md",
+        "additionalParameters": {
+          "reference": ""
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        432,
+        -32
+      ],
+      "id": "855fa5e4-2f65-4deb-b1a8-636924e6ae58",
+      "name": "Get a file",
+      "webhookId": "ce401404-58d0-4ec5-9423-96c1a744c130",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "6Q6LB6JbQH52a7Cz",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        640,
+        -32
+      ],
+      "id": "e6411339-25d7-41b3-9f29-69ba93ea8227",
+      "name": "Extract from File"
+    }
+  ],
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "module": "facebook-marketing"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "d06a728f-5730-4d02-8ae8-a02e846d5c95",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ca91b1c1fcab306434737c5db2e2740121e2b04073402ce6d0dbcb9b3cfc534c"
+  },
+  "id": "bU8TZi1rjLC3NZu30srkE",
+  "tags": []
+}

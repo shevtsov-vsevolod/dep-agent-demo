@@ -1,0 +1,103 @@
+{
+  "name": "Get list of modules",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n}"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9c3a942d-f688-4dd7-93f7-b6b056a982fd",
+      "name": "When Executed by Another Workflow",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "list",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/shevtsov-vsevolod",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "https://github.com/shevtsov-vsevolod/dep-agent-demo",
+          "mode": "url"
+        },
+        "filePath": "project/src"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "9349705d-8d06-41fa-acd1-87f754c3b44a",
+      "name": "List files",
+      "webhookId": "d8ab2705-6eb3-41df-81d1-6c1ec5c99238",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "6Q6LB6JbQH52a7Cz",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const input =  $input.all()\n\nconst modules = input.map(x => x.json.name).filter(x => x !== 'aggregator')\n\nreturn {\n  modules,\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "affef9f8-3f28-4209-b18a-08da4aa1f61d",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "List files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List files": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "4c9a3f50-d2e9-461d-8a79-c0bdde17a60c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ca91b1c1fcab306434737c5db2e2740121e2b04073402ce6d0dbcb9b3cfc534c"
+  },
+  "id": "9kl5KqBXz6zx9b__tGpje",
+  "tags": []
+}
